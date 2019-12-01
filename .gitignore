@@ -106,4 +106,6 @@ venv.bak/
 features/data/*
 features/exp/*
 features/logspec/*
+features/fbank/*
+features/mfcc/*
 .vscode/*
