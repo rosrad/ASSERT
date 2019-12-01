@@ -9,7 +9,7 @@ import sys, os, re, gzip, struct
 # Adding kaldi tools to shell path,
 
 # Select kaldi,
-if not 'KALDI_ROOT' in os.environ:
+if 'KALDI_ROOT' not in os.environ:
   # Default! To change run python with 'export KALDI_ROOT=/some_dir python'
   os.environ['KALDI_ROOT']='/mnt/matylda5/iveselyk/Tools/kaldi-trunk'
 
@@ -19,14 +19,28 @@ os.environ['PATH'] = os.popen('echo $KALDI_ROOT/src/bin:$KALDI_ROOT/tools/openfs
 
 #################################################
 # Define all custom exceptions,
-class UnsupportedDataType(Exception): pass
-class UnknownVectorHeader(Exception): pass
-class UnknownMatrixHeader(Exception): pass
+class UnsupportedDataType(Exception):
+    pass
 
-class BadSampleSize(Exception): pass
-class BadInputFormat(Exception): pass
 
-class SubprocessFailed(Exception): pass
+class UnknownVectorHeader(Exception):
+    pass
+
+
+class UnknownMatrixHeader(Exception):
+    pass
+
+
+class BadSampleSize(Exception):
+    pass
+
+
+class BadInputFormat(Exception):
+    pass
+
+
+class SubprocessFailed(Exception):
+    pass
 
 #################################################
 # Data-type independent helper functions,

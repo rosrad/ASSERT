@@ -1,5 +1,6 @@
 
-# create multi-labels for model training 
+# create multi-labels for model training
+
 
 def convert_la(scp_file, systemID_file, out_file):
     ''' multi-class classification for LA: SS_1, SS_2, SS_4, US_1, VC_1, VC_4 --> 7 classes
@@ -11,12 +12,12 @@ def convert_la(scp_file, systemID_file, out_file):
 
     with open(systemID_file) as f:
         temp = f.readlines()
-    utt2ID = {x.strip().split()[0]:x.strip().split()[1] for x in temp}
+    utt2ID = {x.strip().split()[0]: x.strip().split()[1] for x in temp}
 
     with open(out_file, 'w') as f:
         for key in key_list:
             curr_utt = ''.join(key.split('-')[0] + '-' + key.split('-')[1])
-            label = utt2ID[curr_utt] 
+            label = utt2ID[curr_utt]
             if label == 'bonafide':
                 f.write('%s %d\n' % (key, 0))
             elif label == 'SS_1':
@@ -44,12 +45,12 @@ def convert_pa(scp_file, systemID_file, out_file):
 
     with open(systemID_file) as f:
         temp = f.readlines()
-    utt2ID = {x.strip().split()[0]:x.strip().split()[1] for x in temp}
+    utt2ID = {x.strip().split()[0]: x.strip().split()[1] for x in temp}
 
     with open(out_file, 'w') as f:
         for key in key_list:
             curr_utt = ''.join(key.split('-')[0] + '-' + key.split('-')[1])
-            label = utt2ID[curr_utt] 
+            label = utt2ID[curr_utt]
             if label == 'bonafide':
                 f.write('%s %d\n' % (key, 0))
             elif label == 'AA':
@@ -88,7 +89,7 @@ def convert_pa_leave_one_out(scp_file, systemID_file, out_file):
     with open(out_file, 'w') as f:
         for key in key_list:
             curr_utt = ''.join(key.split('-')[0] + '-' + key.split('-')[1])
-            label = utt2ID[curr_utt] 
+            label = utt2ID[curr_utt]
             if label == 'bonafide':
                 f.write('%s %d\n' % (key, 0))
             elif label == 'AA':
@@ -114,27 +115,30 @@ def convert_pa_leave_one_out(scp_file, systemID_file, out_file):
 if __name__ == '__main__':
     curr_wd = 'utt2systemID/'
     systemID_files = ['la_dev_utt2systemID', 'la_train_utt2systemID',
-            'pa_dev_utt2systemID', 'pa_train_utt2systemID']
+                      'pa_dev_utt2systemID', 'pa_train_utt2systemID']
     out_files = ['la_dev_utt2index_8', 'la_train_utt2index_8',
-            'pa_dev_utt2index_8', 'pa_train_utt2index_8']
-    scp_files = ['feats/la_dev_spec_tensor4.scp', 'feats/la_train_spec_tensor4.scp',
-            'feats/pa_dev_spec_tensor4.scp', 'feats/pa_train_spec_tensor4.scp']
+                 'pa_dev_utt2index_8', 'pa_train_utt2index_8']
+    scp_files = [
+        'feats/la_dev_spec_tensor4.scp',
+        'feats/la_train_spec_tensor4.scp',
+        'feats/pa_dev_spec_tensor4.scp',
+        'feats/pa_train_spec_tensor4.scp']
 
-    #systemID_files = ['pa_dev_utt2systemID', 'pa_train_utt2systemID'] 
+    #systemID_files = ['pa_dev_utt2systemID', 'pa_train_utt2systemID']
     #out_files = ['pa_dev_utt2index_6', 'pa_train_utt2index_6']
     #scp_files = ['feats/pa_dev_spec_tensor3.scp', 'feats/pa_train_spec_tensor3.scp']
 
-    for i in range(0,2):
-        convert_la(scp_files[i], curr_wd + systemID_files[i], 
-                curr_wd + out_files[i])
+    for i in range(0, 2):
+        convert_la(scp_files[i], curr_wd + systemID_files[i],
+                   curr_wd + out_files[i])
 
-    for i in range(2,4):
-        convert_pa(scp_files[i], curr_wd + systemID_files[i], 
-                curr_wd + out_files[i])
+    for i in range(2, 4):
+        convert_pa(scp_files[i], curr_wd + systemID_files[i],
+                   curr_wd + out_files[i])
 
-    """ 
-    la  |  spec with cm  |  la_{train,dev}_spec_cm_tensor.scp   |  (257 by 400)  |  la_{train,dev}_utt2index    |  regular 
-    pa  |  spec with cm  |  pa_{train,dev}_spec_cm_tensor.scp   |  (257 by 500)  |  pa_{train,dev}_utt2index    |  regular 
+    """
+    la  |  spec with cm  |  la_{train,dev}_spec_cm_tensor.scp   |  (257 by 400)  |  la_{train,dev}_utt2index    |  regular
+    pa  |  spec with cm  |  pa_{train,dev}_spec_cm_tensor.scp   |  (257 by 500)  |  pa_{train,dev}_utt2index    |  regular
     pa  |  spec          |  pa_{train,dev}_spec_tensor3.scp     |  (257 by 400)  |  pa_{train,dev}_utt2index_2  |  regular
     pa  |  spec with cm  |  pa_{train,dev}_spec_cm_tensor2.scp  |  (257 by 400)  |  pa_{train,dev}_utt2index_2  |  regular
     la  |  cqcc with cm  |  la_{train,dev}_cqcc_cm_tensor.scp   |  (30  by 400)  |  la_{train,dev}_utt2index_3  |  regular
@@ -143,7 +147,7 @@ if __name__ == '__main__':
     pa  |  cqcc          |  pa_{train,dev}_cqcc_tensor2.scp     |  (30  by 400)  |  pa_{train,dev}_utt2index_4  |  regular
     pa  |  cpc_1         |  pa_{train,dev}_cpc_1_tensor_400.scp |  (256 by 400)  |  pa_{train,dev}_utt2index_5  |  regular
     pa  |  spec          |  pa_{train,dev}_spec_tensor3.scp     |  (257 by 400)  |  pa_{train,dev}_utt2index_6  |  leave out AA
-    la  |  spec          |  la_{train,dev}_spec_tensor.scp      |  (257 by 400)  |  la_{train,dev}_utt2index    |  regular 
+    la  |  spec          |  la_{train,dev}_spec_tensor.scp      |  (257 by 400)  |  la_{train,dev}_utt2index    |  regular
     la  |  cpc_2         |  la_{train,dev}_cpc_2_tensor_400.scp |  (257 by 400)  |  la_{train,dev}_utt2index_7  |  regular
     pa  |  cpc_2         |  pa_{train,dev}_cpc_2_tensor_400.scp |  (257 by 400)  |  pa_{train,dev}_utt2index_7  |  regular
     la  |  spec (slide)  |  la_{train,dev}_spec_tensor4.scp     |  (257 by 400)  |  la_{train,dev}_utt2index_8  |  regular
