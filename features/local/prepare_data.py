@@ -33,17 +33,23 @@ def prepare_set(access, testset, data_dir, root_dir):
     prepare_data(protocol_file, set_data_dir, audio_dir)
 
 
+def prepare_allset(data_dir, root_dir):
+    for access in ["LA", "PA"]:
+        for testset in ["train", "dev", "eval"]:
+            prepare_set(access, testset, data_dir, root_dir)
+
+
 def main(arg_vec):
     params = {
         "root_dir": r"/home/boren/data/ASVspoof2019;str",
-        "access": r"LA;str",
         "data_dir": r"features/data;str",
+        "access": r"LA;str",
         "testset": r"eval;str"
     }
     parser = utils.dict2parser(params)
     args = parser.parse_args(arg_vec)
     print(vars(args))
-    prepare_set(args.access, args.testset, args.data_dir, args.root_dir)
+    prepare_allset(args.data_dir, args.root_dir)
     print(f"prepare {args.access}_{args.testset} !")
 
 
